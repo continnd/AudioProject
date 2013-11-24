@@ -1,2 +1,2 @@
-Warning (10268): Verilog HDL information at audio_converter.v(38): always construct contains both blocking and non-blocking assignments
+Warning (10268): Verilog HDL information at audio_converter.v(43): always construct contains both blocking and non-blocking assignments
 Info (10281): Verilog HDL Declaration information at audio1.v(30): object "rst" differs only in case from object "RST" in the same scope

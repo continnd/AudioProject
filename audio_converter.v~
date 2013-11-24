@@ -27,7 +27,6 @@ module audio_converter (
 // Clocks in the ADC input
 // and sets up the output bit selector
 
-reg [17:0] SEL_Add;
 reg [3:0] SEL_Cont;
 reg [17:0] mem_addr;
 reg [15:0] mem_in;
@@ -50,22 +49,23 @@ begin
 	else 
 	begin
 		SEL_Cont <= SEL_Cont+1'b1; //4 bit counter, so it wraps at 16
-		if(SEL_Cont==4'd0)
-	    	SEL_Add=SEL_Add+1'b1;
+		if(SEL_Cont==4'd15)
+	    		SEL_Add=SEL_Add+1'b1;
+	    	mem_out <= DATA_DQ;
 		if (AUD_LRCK)
 		begin
 	  		AUD_inL[~(SEL_Cont)] <= AUD_ADCDAT;
-	    	//mem_in[~SEL_Cont] <= AUD_ADCDAT;
+	    		mem_in[~SEL_Cont] <= AUD_ADCDAT;
 		end
 		else
 		begin
 			  AUD_inR[~(SEL_Cont)] <= AUD_ADCDAT;
-			  //mem_in[~SEL_Cont] <= AUD_ADCDAT;
+			  mem_in[~SEL_Cont] <= AUD_ADCDAT;
+			  if(SW==1'b1)
+				write <= 1'b0;
+			  else
+				write <= 1'b1;
 		end
-		if(SW==1'b1)
-			write <= 1'b0;
-		else
-		   write <= 1'b1;
 	end
 end
 
@@ -74,17 +74,16 @@ always @ (*)
 begin
 	case (SW)
 			1'b0 : begin
-			  AUD_DATA = (AUD_LRCK)? AUD_outL[~SEL_Cont]: AUD_outR[~SEL_Cont];
-			  mem_in[~SEL_Cont] = (AUD_LRCK) ? AUD_outL[~SEL_Cont] : AUD_outR[~SEL_Cont];
+			  AUD_DATA = (AUD_LRCK)? AUD_outL[~SEL_Cont]: AUD_outR[~SEL_Cont] ;
 			end
-			1'b1 : begin
+			default: 
+			begin
 			  AUD_DATA = SRAM_DQ[~SEL_Cont];
 			end
-			default: AUD_DATA = 1'b0;
 	endcase
 end
 
 assign SRAM_ADDR = SEL_Add;
-assign SRAM_DQ = SW ? 16'hzzzz : mem_in;
+assign SRAM_DQ = SW ? mem_in : 16'hzzzz;
 assign SRAM_WE = write;
 endmodule

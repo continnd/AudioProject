@@ -19,7 +19,7 @@ module AudioRecorder(
   output AUD_DACDAT,  // Audio CODEC DAC Data
   inout	 AUD_BCLK,    // Audio CODEC Bit-Stream Clock
   output AUD_XCK,     // Audio CODEC Chip Clock
-  output reg [15:0]SRAM_DQ,
+  inout [15:0]SRAM_DQ,
   output reg [17:0]SRAM_ADDR,
   output reg SRAM_WE_N,
   output reg SRAM_UB_N,

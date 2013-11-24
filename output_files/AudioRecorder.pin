@@ -100,9 +100,9 @@ GND*                         : AA5       :        :                   :         
 GND*                         : AA6       :        :                   :         : 1         :                
 GND*                         : AA7       :        :                   :         : 1         :                
 VCCA_PLL1                    : AA8       : power  :                   : 1.2V    :           :                
-SRAM_DQ[3]                   : AA9       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[4]                   : AA10      : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[6]                   : AA11      : output : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[3]                   : AA9       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[4]                   : AA10      : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[6]                   : AA11      : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 GND*                         : AA12      :        :                   :         : 8         :                
 GND*                         : AA13      :        :                   :         : 7         :                
 GND*                         : AA14      :        :                   :         : 7         :                
@@ -127,7 +127,7 @@ VCCIO8                       : AB6       : power  :                   : 3.3V    
 GND                          : AB7       : gnd    :                   :         :           :                
 SRAM_ADDR[16]                : AB8       : output : 3.3-V LVTTL       :         : 8         : Y              
 VCCIO8                       : AB9       : power  :                   : 3.3V    : 8         :                
-SRAM_DQ[5]                   : AB10      : output : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[5]                   : AB10      : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 GND                          : AB11      : gnd    :                   :         :           :                
 GND*                         : AB12      :        :                   :         : 8         :                
 VCCIO8                       : AB13      : power  :                   : 3.3V    : 8         :                
@@ -152,8 +152,8 @@ SRAM_ADDR[2]                 : AC5       : output : 3.3-V LVTTL       :         
 SRAM_ADDR[3]                 : AC6       : output : 3.3-V LVTTL       :         : 8         : Y              
 SRAM_ADDR[12]                : AC7       : output : 3.3-V LVTTL       :         : 8         : Y              
 SRAM_ADDR[17]                : AC8       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[14]                  : AC9       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[15]                  : AC10      : output : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[14]                  : AC9       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[15]                  : AC10      : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 SRAM_CE_N                    : AC11      : output : 3.3-V LVTTL       :         : 8         : Y              
 GND*                         : AC12      :        :                   :         : 8         :                
 SW[6]                        : AC13      : input  : 3.3-V LVTTL       :         : 8         : Y              
@@ -177,7 +177,7 @@ SRAM_ADDR[4]                 : AD4       : output : 3.3-V LVTTL       :         
 SRAM_ADDR[5]                 : AD5       : output : 3.3-V LVTTL       :         : 8         : Y              
 SRAM_ADDR[8]                 : AD6       : output : 3.3-V LVTTL       :         : 8         : Y              
 SRAM_ADDR[9]                 : AD7       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[0]                   : AD8       : output : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[0]                   : AD8       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 GND                          : AD9       : gnd    :                   :         :           :                
 SRAM_OE_N                    : AD10      : output : 3.3-V LVTTL       :         : 8         : Y              
 GND*                         : AD11      :        :                   :         : 8         :                
@@ -201,9 +201,9 @@ GND*                         : AE2       :        :                   :         
 GND*                         : AE3       :        :                   :         : 1         :                
 SRAM_ADDR[0]                 : AE4       : output : 3.3-V LVTTL       :         : 8         : Y              
 SRAM_ADDR[6]                 : AE5       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[1]                   : AE6       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[8]                   : AE7       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[10]                  : AE8       : output : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[1]                   : AE6       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[8]                   : AE7       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[10]                  : AE8       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 SRAM_LB_N                    : AE9       : output : 3.3-V LVTTL       :         : 8         : Y              
 SRAM_WE_N                    : AE10      : output : 3.3-V LVTTL       :         : 8         : Y              
 GND*                         : AE11      :        :                   :         : 8         :                
@@ -226,9 +226,9 @@ GND                          : AF2       : gnd    :                   :         
 VCCIO8                       : AF3       : power  :                   : 3.3V    : 8         :                
 SRAM_ADDR[1]                 : AF4       : output : 3.3-V LVTTL       :         : 8         : Y              
 SRAM_ADDR[7]                 : AF5       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[2]                   : AF6       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[9]                   : AF7       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[11]                  : AF8       : output : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[2]                   : AF6       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[9]                   : AF7       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[11]                  : AF8       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 SRAM_UB_N                    : AF9       : output : 3.3-V LVTTL       :         : 8         : Y              
 GND*                         : AF10      :        :                   :         : 8         :                
 VCCIO8                       : AF11      : power  :                   : 3.3V    : 8         :                
@@ -305,7 +305,7 @@ GND                          : D4        : gnd    :                   :         
 GND*                         : D5        :        :                   :         : 3         :                
 GND*                         : D6        :        :                   :         : 3         :                
 GND*                         : D7        :        :                   :         : 3         :                
-SW[0]                        : D8        : input  : 3.3-V LVTTL       :         : 3         : N              
+GND*                         : D8        :        :                   :         : 3         :                
 GND*                         : D9        :        :                   :         : 3         :                
 GND*                         : D10       :        :                   :         : 3         :                
 GND*                         : D11       :        :                   :         : 3         :                
@@ -367,7 +367,7 @@ GND*                         : F14       :        :                   :         
 GND*                         : F15       :        :                   :         : 4         :                
 GND*                         : F16       :        :                   :         : 4         :                
 GND*                         : F17       :        :                   :         : 4         :                
-GND*                         : F18       :        :                   :         : 4         :                
+SW[0]                        : F18       : input  : 3.3-V LVTTL       :         : 4         : N              
 GNDA_PLL2                    : F19       : gnd    :                   :         :           :                
 GND*                         : F20       :        :                   :         : 5         :                
 GND*                         : F21       :        :                   :         : 5         :                
@@ -698,8 +698,8 @@ GND_PLL1                     : W7        : gnd    :                   :         
 SRAM_ADDR[13]                : W8        : output : 3.3-V LVTTL       :         : 8         : Y              
 VCCIO8                       : W9        : power  :                   : 3.3V    : 8         :                
 SRAM_ADDR[14]                : W10       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[12]                  : W11       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[13]                  : W12       : output : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[12]                  : W11       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[13]                  : W12       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 GND                          : W13       : gnd    :                   :         :           :                
 GND                          : W14       : gnd    :                   :         :           :                
 GND*                         : W15       :        :                   :         : 7         :                
@@ -724,7 +724,7 @@ VCCD_PLL1                    : Y7        : power  :                   : 1.2V    
 GNDA_PLL1                    : Y8        : gnd    :                   :         :           :                
 GND                          : Y9        : gnd    :                   :         :           :                
 SRAM_ADDR[15]                : Y10       : output : 3.3-V LVTTL       :         : 8         : Y              
-SRAM_DQ[7]                   : Y11       : output : 3.3-V LVTTL       :         : 8         : Y              
+SRAM_DQ[7]                   : Y11       : bidir  : 3.3-V LVTTL       :         : 8         : Y              
 GND*                         : Y12       :        :                   :         : 8         :                
 GND*                         : Y13       :        :                   :         : 7         :                
 GND*                         : Y14       :        :                   :         : 7         :                

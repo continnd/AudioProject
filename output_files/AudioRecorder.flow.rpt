@@ -1,5 +1,5 @@
 Flow report for AudioRecorder
-Thu Nov 21 17:36:18 2013
+Sun Nov 24 15:23:44 2013
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -40,17 +40,17 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Flow Summary                                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Flow Status                        ; Successful - Thu Nov 21 17:36:16 2013           ;
+; Flow Status                        ; Successful - Sun Nov 24 15:23:42 2013           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; AudioRecorder                                   ;
 ; Top-level Entity Name              ; AudioRecorder                                   ;
 ; Family                             ; Cyclone II                                      ;
 ; Device                             ; EP2C35F672C6                                    ;
 ; Timing Models                      ; Final                                           ;
-; Total logic elements               ; 359 / 33,216 ( 1 % )                            ;
-;     Total combinational functions  ; 332 / 33,216 ( < 1 % )                          ;
-;     Dedicated logic registers      ; 210 / 33,216 ( < 1 % )                          ;
-; Total registers                    ; 210                                             ;
+; Total logic elements               ; 373 / 33,216 ( 1 % )                            ;
+;     Total combinational functions  ; 348 / 33,216 ( 1 % )                            ;
+;     Dedicated logic registers      ; 194 / 33,216 ( < 1 % )                          ;
+; Total registers                    ; 194                                             ;
 ; Total pins                         ; 73 / 475 ( 15 % )                               ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 0 / 483,840 ( 0 % )                             ;
@@ -64,7 +64,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 11/21/2013 17:36:02 ;
+; Start date & time ; 11/24/2013 15:23:27 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; AudioRecorder       ;
 +-------------------+---------------------+
@@ -75,23 +75,13 @@ applicable agreement for further details.
 +-------------------------------------+--------------------------------+---------------+-------------+------------+
 ; Assignment Name                     ; Value                          ; Default Value ; Entity Name ; Section Id ;
 +-------------------------------------+--------------------------------+---------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 20588562590614.138507336204664 ; --            ; --          ; --         ;
-; IP_TOOL_ENV                         ; mwpim                          ; --            ; SRAM        ; --         ;
-; IP_TOOL_ENV                         ; mwpim                          ; --            ; SRAM        ; --         ;
-; IP_TOOL_NAME                        ; altera_up_avalon_sram          ; --            ; SRAM        ; --         ;
-; IP_TOOL_NAME                        ; altera_up_avalon_sram          ; --            ; SRAM        ; --         ;
-; IP_TOOL_VERSION                     ; 13.0sp1                        ; --            ; SRAM        ; --         ;
-; IP_TOOL_VERSION                     ; 13.0sp1                        ; --            ; SRAM        ; --         ;
+; COMPILER_SIGNATURE_ID               ; 20588562590614.138532460709392 ; --            ; --          ; --         ;
 ; MAX_CORE_JUNCTION_TEMP              ; 85                             ; --            ; --          ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; 0                              ; --            ; --          ; --         ;
-; MISC_FILE                           ; SRAM.cmp                       ; --            ; --          ; --         ;
-; MISC_FILE                           ; SRAM_sim/SRAM.v                ; --            ; --          ; --         ;
 ; PARTITION_COLOR                     ; 16764057                       ; --            ; --          ; Top        ;
 ; PARTITION_FITTER_PRESERVATION_LEVEL ; PLACEMENT_AND_ROUTING          ; --            ; --          ; Top        ;
 ; PARTITION_NETLIST_TYPE              ; SOURCE                         ; --            ; --          ; Top        ;
 ; PROJECT_OUTPUT_DIRECTORY            ; output_files                   ; --            ; --          ; --         ;
-; SPD_FILE                            ; SRAM.spd                       ; --            ; --          ; --         ;
-; SYNTHESIS_ONLY_QIP                  ; On                             ; --            ; --          ; --         ;
 ; VERILOG_INPUT_VERSION               ; SystemVerilog_2005             ; Verilog_2001  ; --          ; --         ;
 ; VERILOG_SHOW_LMF_MAPPING_MESSAGES   ; Off                            ; --            ; --          ; --         ;
 +-------------------------------------+--------------------------------+---------------+-------------+------------+
@@ -102,11 +92,11 @@ applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:03     ; 1.0                     ; 456 MB              ; 00:00:02                           ;
-; Fitter                    ; 00:00:08     ; 1.0                     ; 665 MB              ; 00:00:07                           ;
+; Analysis & Synthesis      ; 00:00:02     ; 1.0                     ; 456 MB              ; 00:00:02                           ;
+; Fitter                    ; 00:00:09     ; 1.0                     ; 668 MB              ; 00:00:08                           ;
 ; Assembler                 ; 00:00:02     ; 1.0                     ; 426 MB              ; 00:00:02                           ;
-; TimeQuest Timing Analyzer ; 00:00:02     ; 1.0                     ; 415 MB              ; 00:00:01                           ;
-; Total                     ; 00:00:15     ; --                      ; --                  ; 00:00:12                           ;
+; TimeQuest Timing Analyzer ; 00:00:02     ; 1.0                     ; 409 MB              ; 00:00:01                           ;
+; Total                     ; 00:00:15     ; --                      ; --                  ; 00:00:13                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
