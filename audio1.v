@@ -5,7 +5,7 @@ module AudioRecorder(
   //  Push Buttons
   input  [3:0]  KEY,
   //  DPDT Switches 
-  input  [17:0]  SW,
+  input  [17:1]  SW,
   //  7-SEG Displays
   // TV Decoder
   output TD_RESET, // TV Decoder Reset
@@ -21,17 +21,24 @@ module AudioRecorder(
   output AUD_XCK,     // Audio CODEC Chip Clock
   inout [15:0]SRAM_DQ,
   output reg [17:0]SRAM_ADDR,
-  output reg SRAM_WE_N,
-  output reg SRAM_UB_N,
-  output reg SRAM_LB_N,
-  output reg SRAM_CE_N,
-  output reg SRAM_OE_N,
+  output SRAM_WE_N,
+  output SRAM_UB_N,
+  output SRAM_LB_N,
+  output SRAM_CE_N,
+  output SRAM_OE_N,
   input rst
 );
 
+reg[15:0] mem_in;
 wire [6:0] myclock;
 wire RST;
 assign RST = KEY[0];
+
+assign SRAM_DQ = 16'hzzzz;
+assign SRAM_UB_N = 1'b0;
+assign SRAM_LB_N = 1'b0;
+assign SRAM_CE_N = 1'b0;
+assign SRAM_OE_N = 1'b0;
 
 // reset delay gives some time for peripherals to initialize
 wire DLY_RST;
@@ -71,11 +78,64 @@ audio_clock u4(
 wire [15:0] audio_inL, audio_inR;
 reg [15:0] audio_outL,audio_outR;
 
-always @(negedge AUD_DACLRCK)
-	audio_outR <= audio_inR;
-
 always @(posedge AUD_DACLRCK)
-	audio_outL <= audio_inL;
+begin
+	if(!SW[17])
+	begin
+		audioR <= audio_inR;
+		mem_in <= audio_inR;
+		
+		if(!rst)
+		begin
+			SEL_Addr <= 18'd0;
+			counter <= 4'd0;
+		end
+		else
+		begin
+				SEL_Addr <= SEL_Addr + 1'b1;
+		end
+		
+	end
+	else
+	begin
+		audioR <= SRAM_DQ;
+		
+		if(!rst)
+		begin
+			SEL_Addr <= 1'd0;
+		end
+		else
+		begin
+			SEL_Addr <= SEL_Addr + 1'b1;
+		end
+		
+	end
+end
+always @(negedge AUD_DACLRCK)
+begin
+	if(!SW[17])
+	begin
+		audioL <= audio_inL;
+	end
+	else
+	begin
+		audioL <= SRAM_DQ;
+	end
+end
+
+reg [15:0]audioL;
+reg [15:0]audioR;
+reg [4:0] counter;
+reg write;
+reg[17:0] SEL_Addr;
+	
+
+assign SRAM_DQ = SW[17] ? 16'hzzzz : mem_in;
+assign SRAM_ADDR = SEL_Addr;
+assign SRAM_WE_N = SW[17];
+	
+assign audio_outL = audioL;
+assign audio_outR = audioR;
 
 
 audio_converter u5(
@@ -90,15 +150,6 @@ audio_converter u5(
 	.AUD_outR(audio_outR),
 	.AUD_inL(audio_inL),
 	.AUD_inR(audio_inR),
-	.SW(SW[17]),
-	.SRAM_DQ(SRAM_DQ),
-   .SRAM_ADDR(SRAM_ADDR),
-   .SRAM_WE_N(SRAM_WE_N),
-   .SRAM_UB_N(SRAM_UB_N),
-   .SRAM_LB_N(SRAM_LB_N),
-   .SRAM_CE_N(SRAM_CE_N),
-   .SRAM_OE_N(SRAM_OE_N),
-   .rst(rst)
 );
 
 endmodule

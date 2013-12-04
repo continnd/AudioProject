@@ -3,88 +3,34 @@ module audio_converter (
 	input AUD_BCK,    // Audio bit clock
 	input AUD_LRCK,   // left-right clock
 	input AUD_ADCDAT,
-	output reg AUD_DATA,
+	output AUD_DATA,
 	// Controller side
 	input iRST_N,  // reset
 	input [15:0] AUD_outL,
 	input [15:0] AUD_outR,
 	output reg[15:0] AUD_inL,
 	output reg[15:0] AUD_inR,
-	input SW,
-	inout [15:0]SRAM_DQ,
-	output [17:0]SRAM_ADDR,
-	output SRAM_WE_N,
-	output SRAM_UB_N,
-	output SRAM_LB_N,
-	output SRAM_CE_N,
-	output SRAM_OE_N,
-	input rst
+	output reg[15:0] mem_in
 );
-
 
 
 //	16 Bits - MSB First
 // Clocks in the ADC input
 // and sets up the output bit selector
 
-reg [17:0] SEL_Add;
 reg [3:0] SEL_Cont;
-reg [17:0] mem_addr;
-reg [15:0] mem_in;
-reg [15:0] mem_out;
-reg write;
-
-assign SRAM_UB_N = 1'b0;        // SRAM High-byte Data Mask
-assign SRAM_LB_N = 1'b0;        // SRAM Low-byte Data Mask 
-assign SRAM_CE_N = 1'b0;        // SRAM Chip Enable
-assign SRAM_OE_N = 1'b0;        // SRAM Output Enable
-assign SRAM_DQ_N = 16'hzzzz;
-
-always@(negedge AUD_BCK or negedge iRST_N or negedge rst)
+always@(negedge AUD_BCK or negedge iRST_N)
 begin
-	if(!iRST_N || !rst)
+	if(!iRST_N) SEL_Cont <= 4'h0;
+	else
 	begin
-	   SEL_Cont <= 4'h0;
-	   SEL_Add <= 18'd0;
-	end
-	else 
-	begin
-		SEL_Cont <= SEL_Cont+1'b1; //4 bit counter, so it wraps at 16
-		if(SEL_Cont==4'd0)
-	    	SEL_Add=SEL_Add+1'b1;
-		if (AUD_LRCK)
-		begin
-	  		AUD_inL[~(SEL_Cont)] <= AUD_ADCDAT;
-	    	//mem_in[~SEL_Cont] <= AUD_ADCDAT;
-		end
-		else
-		begin
-			  AUD_inR[~(SEL_Cont)] <= AUD_ADCDAT;
-			  //mem_in[~SEL_Cont] <= AUD_ADCDAT;
-		end
-		if(SW==1'b1)
-			write <= 1'b0;
-		else
-		   write <= 1'b1;
+	   SEL_Cont <= SEL_Cont+1'b1; //4 bit counter, so it wraps at 16
+	   if (AUD_LRCK) AUD_inL[~(SEL_Cont)] <= AUD_ADCDAT;
+	   else AUD_inR[~(SEL_Cont)] <= AUD_ADCDAT;
 	end
 end
 
-
-always @ (*)
-begin
-	case (SW)
-			1'b0 : begin
-			  AUD_DATA = (AUD_LRCK)? AUD_outL[~SEL_Cont]: AUD_outR[~SEL_Cont];
-			  mem_in[~SEL_Cont] = (AUD_LRCK) ? AUD_outL[~SEL_Cont] : AUD_outR[~SEL_Cont];
-			end
-			1'b1 : begin
-			  AUD_DATA = SRAM_DQ[~SEL_Cont];
-			end
-			default: AUD_DATA = 1'b0;
-	endcase
-end
-
-assign SRAM_ADDR = SEL_Add;
-assign SRAM_DQ = SW ? 16'hzzzz : mem_in;
-assign SRAM_WE = write;
+// output the DAC bit-stream
+assign AUD_DATA = (AUD_LRCK)? AUD_outL[~SEL_Cont]: AUD_outR[~SEL_Cont] ;
 endmodule
+
