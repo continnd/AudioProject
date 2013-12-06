@@ -187,7 +187,7 @@ reg[17:0] SEL_Addr2;
 
 always @(*)
 begin
-	if(!SW[13])
+	if(S==BLANK)
 	begin
 	
 		if(SW[15])
