@@ -75,64 +75,156 @@ audio_clock u4(
    .iRST_N(DLY_RST)	
 );
 
+reg [2:0] S;
+reg [2:0] NS;
+
+reg mixcontrol;
+reg writecontrol;
+reg [16:0] sampletemp;
+reg [17:0] count;
+reg write;
+reg [17:0]address;
+
+parameter RW = 3'd0, 
+	MIXINIT = 3'd1, 
+	GETSAMPLE = 3'd2, 
+	SWITCHADDRESS = 3'd3, 
+	MIXSAMPLE = 3'd4, 
+	SAVESAMPLE = 3'd5, 
+	COUNTUP = 3'd6;
+
 wire [15:0] audio_inL, audio_inR;
-reg [15:0] audio_outL,audio_outR;
+wire [15:0] audio_outL,audio_outR;
 
 always @(posedge AUD_DACLRCK)
 begin
-	if(!SW[17])
-	begin
-		audioR <= audio_inR;
-		mem_in <= audio_inR;
-		
-		if(!rst)
-		begin
-			SEL_Addr <= 18'd0;
-			counter <= 4'd0;
-		end
-		else
-		begin
-				SEL_Addr <= SEL_Addr + 1'b1;
-		end
-		
-	end
+	if(!rst)
+		S<=RW;
 	else
-	begin
-		audioR <= SRAM_DQ;
-		
-		if(!rst)
-		begin
-			SEL_Addr <= 1'd0;
+		S<=NS;
+/*	case(S)
+		RW: begin */
+			if(!SW[17])
+			begin
+				audioR <= audio_inR;
+				mem_in <= audio_inR;
+				if(!rst)
+				begin
+					SEL_Addr1 <= 18'd0;
+					SEL_Addr2 <= 18'd128000;
+				end
+				else
+				begin
+				/*	if(SEL_Addr1==18'd127999)
+						SEL_Addr1 <= 18'd0;
+					else*/
+						SEL_Addr1 <= SEL_Addr1 + 18'd1;
+				/*	if(SEL_Addr2==255999)
+						SEL_Addr2 <= 18'd128000;
+					else
+						SEL_Addr2 <= SEL_Addr2 + 18'd1;*/
+				end
+			end
+			else
+			begin
+				audioR <= SRAM_DQ;
+				if(!rst)
+				begin
+					SEL_Addr1 <= 18'd0;
+					SEL_Addr2 <= 18'd128000;
+				end
+				else
+				begin
+				/*	if(SEL_Addr1==18'd127999)
+						SEL_Addr1 <= 18'd0;
+					else*/
+						SEL_Addr1 <= SEL_Addr1 + 18'd1;
+				/*	if(SEL_Addr2==255999)
+						SEL_Addr2 <= 18'd128000;
+					else
+						SEL_Addr2 <= SEL_Addr2 + 18'd1;*/
+				end
+			end
+//		end
+/*		MIXINIT: begin
+			SEL_Addr1 <= 1'b0;
+			SEL_Addr2 <= 1'b0;
+			mixcontrol <= 1'b1;
+			writecontrol <= 1'b1;
 		end
-		else
-		begin
-			SEL_Addr <= SEL_Addr + 1'b1;
+		GETSAMPLE: begin
+			sampletemp <= SRAM_DQ;
 		end
-		
-	end
+		SWITCHADDRESS: mixcontrol <= 1'b0;
+		MIXSAMPLE: begin
+			sampletemp <= (sampletemp+SRAM_DQ)/2;
+			mixcontrol <= 1'b1;
+			writecontrol <= 1'b0;
+		end
+		SAVESAMPLE: mem_in <= sampletemp[15:0];
+		COUNTUP: begin
+			count <= count + 18'd1;
+			writecontrol <= 1'b1;
+		end
+	endcase */
 end
 always @(negedge AUD_DACLRCK)
 begin
 	if(!SW[17])
-	begin
 		audioL <= audio_inL;
-	end
 	else
-	begin
 		audioL <= SRAM_DQ;
-	end
 end
 
 reg [15:0]audioL;
 reg [15:0]audioR;
-reg [4:0] counter;
-reg write;
-reg[17:0] SEL_Addr;
-	
+reg[17:0] SEL_Addr1;
+reg[17:0] SEL_Addr2;
 
-assign SRAM_DQ = SW[17] ? 16'hzzzz : mem_in;
-assign SRAM_ADDR = SEL_Addr;
-assign SRAM_WE_N = SW[17];
+always @(*)
+begin
+//	if(S==RW)
+//	begin
+	
+		//if(SW[15])
+			SRAM_ADDR=SEL_Addr1;
+		/*else if(SW[14])
+			SRAM_ADDR=SEL_Addr2;
+		else
+			SRAM_ADDR=18'd0; */
+		write = SW[17];
+//	end
+//	else
+//	begin
+//		if(mixcontrol)
+//			address=SEL_Addr1;
+//		else
+//			address=SEL_Addr2;
+//		write = writecontrol;
+//	end
+/*	case(S)
+		RW: begin
+			if(SW[13])
+				NS=MIXINIT;
+			else
+				NS=RW;
+		end
+		MIXINIT: NS=GETSAMPLE;
+		GETSAMPLE: NS=SWITCHADDRESS;
+		SWITCHADDRESS: NS=MIXSAMPLE;
+		MIXSAMPLE: NS=SAVESAMPLE;
+		SAVESAMPLE: NS=COUNTUP;
+		COUNTUP: begin
+			if(count == 18'd128000)
+				NS=RW;
+			else
+				NS=GETSAMPLE;
+		end
+	endcase
+*/end
+assign SRAM_DQ = write ? 16'hzzzz : mem_in;
+assign SRAM_WE_N = write;
+
 	
 assign audio_outL = audioL;
 assign audio_outR = audioR;
@@ -149,7 +241,7 @@ audio_converter u5(
 	.AUD_outL(audio_outL),
 	.AUD_outR(audio_outR),
 	.AUD_inL(audio_inL),
-	.AUD_inR(audio_inR),
+	.AUD_inR(audio_inR)
 );
 
 endmodule
