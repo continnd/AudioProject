@@ -115,14 +115,14 @@ begin
 				end
 				else
 				begin
-				/*	if(SEL_Addr1==18'd127999)
+					if(SEL_Addr1==18'd127999)
 						SEL_Addr1 <= 18'd0;
-					else*/
+					else
 						SEL_Addr1 <= SEL_Addr1 + 18'd1;
-				/*	if(SEL_Addr2==255999)
+					if(SEL_Addr2==255999)
 						SEL_Addr2 <= 18'd128000;
 					else
-						SEL_Addr2 <= SEL_Addr2 + 18'd1;*/
+						SEL_Addr2 <= SEL_Addr2 + 18'd1;
 				end
 			end
 			else
@@ -135,14 +135,14 @@ begin
 				end
 				else
 				begin
-				/*	if(SEL_Addr1==18'd127999)
+					if(SEL_Addr1==18'd127999)
 						SEL_Addr1 <= 18'd0;
-					else*/
+					else
 						SEL_Addr1 <= SEL_Addr1 + 18'd1;
-				/*	if(SEL_Addr2==255999)
+					if(SEL_Addr2==255999)
 						SEL_Addr2 <= 18'd128000;
 					else
-						SEL_Addr2 <= SEL_Addr2 + 18'd1;*/
+						SEL_Addr2 <= SEL_Addr2 + 18'd1;
 				end
 			end
 //		end
