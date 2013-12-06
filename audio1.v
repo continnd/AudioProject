@@ -183,25 +183,25 @@ reg[17:0] SEL_Addr2;
 
 always @(*)
 begin
-//	if(S==RW)
-//	begin
+	if(S==RW)
+	begin
 	
-		//if(SW[15])
+		if(SW[15])
 			SRAM_ADDR=SEL_Addr1;
-		/*else if(SW[14])
+		else if(SW[14])
 			SRAM_ADDR=SEL_Addr2;
 		else
-			SRAM_ADDR=18'd0; */
+			SRAM_ADDR=18'd0; 
 		write = SW[17];
-//	end
-//	else
-//	begin
-//		if(mixcontrol)
-//			address=SEL_Addr1;
-//		else
-//			address=SEL_Addr2;
-//		write = writecontrol;
-//	end
+	end
+	else
+	begin
+		if(mixcontrol)
+			address=SEL_Addr1;
+		else
+			address=SEL_Addr2;
+		write = writecontrol;
+	end
 /*	case(S)
 		RW: begin
 			if(SW[13])
