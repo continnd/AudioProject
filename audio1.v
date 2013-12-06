@@ -85,7 +85,7 @@ reg [17:0] count;
 reg write;
 reg [17:0]address;
 
-parameter RW = 3'd0, 
+parameter BLANK = 3'd0, 
 	MIXINIT = 3'd1, 
 	GETSAMPLE = 3'd2, 
 	SWITCHADDRESS = 3'd3, 
@@ -99,11 +99,13 @@ wire [15:0] audio_outL,audio_outR;
 always @(posedge AUD_DACLRCK)
 begin
 	if(!rst)
-		S<=RW;
+		S<=BLANK;
 	else
 		S<=NS;
 /*	case(S)
 		RW: begin */
+	       if(!SW[13])
+	       begin
 			if(!SW[17])
 			begin
 				audioR <= audio_inR;
@@ -145,8 +147,10 @@ begin
 						SEL_Addr2 <= SEL_Addr2 + 18'd1;
 				end
 			end
-//		end
-/*		MIXINIT: begin
+		end
+	else
+	case(S)
+		MIXINIT: begin
 			SEL_Addr1 <= 1'b0;
 			SEL_Addr2 <= 1'b0;
 			mixcontrol <= 1'b1;
@@ -166,7 +170,7 @@ begin
 			count <= count + 18'd1;
 			writecontrol <= 1'b1;
 		end
-	endcase */
+	endcase
 end
 always @(negedge AUD_DACLRCK)
 begin
@@ -183,7 +187,7 @@ reg[17:0] SEL_Addr2;
 
 always @(*)
 begin
-	if(S==RW)
+	if(!SW[13])
 	begin
 	
 		if(SW[15])
@@ -202,12 +206,12 @@ begin
 			address=SEL_Addr2;
 		write = writecontrol;
 	end
-/*	case(S)
-		RW: begin
+	case(S)
+		BLANK: begin
 			if(SW[13])
 				NS=MIXINIT;
 			else
-				NS=RW;
+				NS=BLANK;
 		end
 		MIXINIT: NS=GETSAMPLE;
 		GETSAMPLE: NS=SWITCHADDRESS;
@@ -216,12 +220,12 @@ begin
 		SAVESAMPLE: NS=COUNTUP;
 		COUNTUP: begin
 			if(count == 18'd128000)
-				NS=RW;
+				NS=BLANK;
 			else
 				NS=GETSAMPLE;
 		end
 	endcase
-*/end
+end
 assign SRAM_DQ = write ? 16'hzzzz : mem_in;
 assign SRAM_WE_N = write;
 
