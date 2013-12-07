@@ -4,10 +4,10 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EPCS16) Path("D:/altera/13.0sp1/AudioProject/output_files/") File("AudioRecorder.pof") MfrSpec(OpMask(1) Child_OpMask(1 1));
+		Device PartName(EP2C35F672) Path("D:/altera/13.0sp1/AudioProject/output_files/") File("AudioRecorder.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
 AlteraBegin;
-	ChainType(asc);
+	ChainType(JTAG);
 AlteraEnd;

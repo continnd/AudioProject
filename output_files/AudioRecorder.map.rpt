@@ -1,5 +1,5 @@
 Analysis & Synthesis report for AudioRecorder
-Sun Nov 24 15:23:30 2013
+Sat Dec 07 18:24:22 2013
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -14,22 +14,23 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
   8. Analysis & Synthesis IP Cores Summary
-  9. State Machine - |AudioRecorder|I2C_AV_Config:u3|mSetup_ST
- 10. User-Specified and Inferred Latches
+  9. State Machine - |AudioRecorder|S
+ 10. State Machine - |AudioRecorder|I2C_AV_Config:u3|mSetup_ST
  11. Registers Removed During Synthesis
  12. Removed Registers Triggering Further Register Optimizations
  13. General Register Statistics
  14. Inverted Register Statistics
  15. Multiplexer Restructuring Statistics (Restructuring Performed)
- 16. Parameter Settings for User Entity Instance: VGA_Audio_PLL:p1|altpll:altpll_component
- 17. Parameter Settings for User Entity Instance: I2C_AV_Config:u3
- 18. Parameter Settings for User Entity Instance: audio_clock:u4
- 19. altpll Parameter Settings by Entity Instance
- 20. Port Connectivity Checks: "I2C_AV_Config:u3|I2C_Controller:u0"
- 21. Port Connectivity Checks: "VGA_Audio_PLL:p1"
- 22. Elapsed Time Per Partition
- 23. Analysis & Synthesis Messages
- 24. Analysis & Synthesis Suppressed Messages
+ 16. Parameter Settings for User Entity Instance: Top-level Entity: |AudioRecorder
+ 17. Parameter Settings for User Entity Instance: VGA_Audio_PLL:p1|altpll:altpll_component
+ 18. Parameter Settings for User Entity Instance: I2C_AV_Config:u3
+ 19. Parameter Settings for User Entity Instance: audio_clock:u4
+ 20. altpll Parameter Settings by Entity Instance
+ 21. Port Connectivity Checks: "audio_converter:u5"
+ 22. Port Connectivity Checks: "I2C_AV_Config:u3|I2C_Controller:u0"
+ 23. Port Connectivity Checks: "VGA_Audio_PLL:p1"
+ 24. Elapsed Time Per Partition
+ 25. Analysis & Synthesis Messages
 
 
 
@@ -55,16 +56,16 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sun Nov 24 15:23:30 2013           ;
+; Analysis & Synthesis Status        ; Successful - Sat Dec 07 18:24:22 2013           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; AudioRecorder                                   ;
 ; Top-level Entity Name              ; AudioRecorder                                   ;
 ; Family                             ; Cyclone II                                      ;
-; Total logic elements               ; 397                                             ;
-;     Total combinational functions  ; 348                                             ;
-;     Dedicated logic registers      ; 194                                             ;
-; Total registers                    ; 194                                             ;
-; Total pins                         ; 73                                              ;
+; Total logic elements               ; 563                                             ;
+;     Total combinational functions  ; 546                                             ;
+;     Dedicated logic registers      ; 257                                             ;
+; Total registers                    ; 257                                             ;
+; Total pins                         ; 72                                              ;
 ; Total virtual pins                 ; 0                                               ;
 ; Total memory bits                  ; 0                                               ;
 ; Embedded Multiplier 9-bit elements ; 0                                               ;
@@ -158,15 +159,21 @@ applicable agreement for further details.
 +----------------------------------------------------------------------------+--------------------+--------------------+
 
 
-Parallel compilation was disabled, but you have multiple processors available. Enable parallel compilation to reduce compilation time.
-+-------------------------------------+
-; Parallel Compilation                ;
-+----------------------------+--------+
-; Processors                 ; Number ;
-+----------------------------+--------+
-; Number detected on machine ; 8      ;
-; Maximum allowed            ; 1      ;
-+----------------------------+--------+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 8           ;
+; Maximum allowed            ; 4           ;
+;                            ;             ;
+; Average used               ; 1.00        ;
+; Maximum used               ; 1           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processors 2-8         ;   0.0%      ;
++----------------------------+-------------+
 
 
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -189,37 +196,37 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------------+-----------------+-----------------------------+---------------------------------------------------------------------+---------+
 
 
-+------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary                                  ;
-+---------------------------------------------+--------------------------------+
-; Resource                                    ; Usage                          ;
-+---------------------------------------------+--------------------------------+
-; Estimated Total logic elements              ; 397                            ;
-;                                             ;                                ;
-; Total combinational functions               ; 348                            ;
-; Logic element usage by number of LUT inputs ;                                ;
-;     -- 4 input functions                    ; 207                            ;
-;     -- 3 input functions                    ; 47                             ;
-;     -- <=2 input functions                  ; 94                             ;
-;                                             ;                                ;
-; Logic elements by mode                      ;                                ;
-;     -- normal mode                          ; 282                            ;
-;     -- arithmetic mode                      ; 66                             ;
-;                                             ;                                ;
-; Total registers                             ; 194                            ;
-;     -- Dedicated logic registers            ; 194                            ;
-;     -- I/O registers                        ; 0                              ;
-;                                             ;                                ;
-; I/O pins                                    ; 73                             ;
-; Embedded Multiplier 9-bit elements          ; 0                              ;
-; Total PLLs                                  ; 1                              ;
-;     -- PLLs                                 ; 1                              ;
-;                                             ;                                ;
-; Maximum fan-out node                        ; I2C_AV_Config:u3|mI2C_CTRL_CLK ;
-; Maximum fan-out                             ; 58                             ;
-; Total fan-out                               ; 1787                           ;
-; Average fan-out                             ; 2.90                           ;
-+---------------------------------------------+--------------------------------+
++----------------------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary                          ;
++---------------------------------------------+------------------------+
+; Resource                                    ; Usage                  ;
++---------------------------------------------+------------------------+
+; Estimated Total logic elements              ; 563                    ;
+;                                             ;                        ;
+; Total combinational functions               ; 546                    ;
+; Logic element usage by number of LUT inputs ;                        ;
+;     -- 4 input functions                    ; 287                    ;
+;     -- 3 input functions                    ; 134                    ;
+;     -- <=2 input functions                  ; 125                    ;
+;                                             ;                        ;
+; Logic elements by mode                      ;                        ;
+;     -- normal mode                          ; 382                    ;
+;     -- arithmetic mode                      ; 164                    ;
+;                                             ;                        ;
+; Total registers                             ; 257                    ;
+;     -- Dedicated logic registers            ; 257                    ;
+;     -- I/O registers                        ; 0                      ;
+;                                             ;                        ;
+; I/O pins                                    ; 72                     ;
+; Embedded Multiplier 9-bit elements          ; 0                      ;
+; Total PLLs                                  ; 1                      ;
+;     -- PLLs                                 ; 1                      ;
+;                                             ;                        ;
+; Maximum fan-out node                        ; audio_clock:u4|LRCK_1X ;
+; Maximum fan-out                             ; 119                    ;
+; Total fan-out                               ; 2681                   ;
+; Average fan-out                             ; 3.06                   ;
++---------------------------------------------+------------------------+
 
 
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -227,14 +234,14 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node      ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                     ; Library Name ;
 +---------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------+--------------+
-; |AudioRecorder                  ; 348 (0)           ; 194 (32)     ; 0           ; 0            ; 0       ; 0         ; 73   ; 0            ; |AudioRecorder                                          ; work         ;
+; |AudioRecorder                  ; 546 (261)         ; 257 (113)    ; 0           ; 0            ; 0       ; 0         ; 72   ; 0            ; |AudioRecorder                                          ; work         ;
 ;    |I2C_AV_Config:u3|           ; 165 (116)         ; 73 (44)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |AudioRecorder|I2C_AV_Config:u3                         ; work         ;
 ;       |I2C_Controller:u0|       ; 49 (49)           ; 29 (29)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |AudioRecorder|I2C_AV_Config:u3|I2C_Controller:u0       ; work         ;
 ;    |Reset_Delay:r0|             ; 28 (28)           ; 21 (21)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |AudioRecorder|Reset_Delay:r0                           ; work         ;
 ;    |VGA_Audio_PLL:p1|           ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |AudioRecorder|VGA_Audio_PLL:p1                         ; work         ;
 ;       |altpll:altpll_component| ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |AudioRecorder|VGA_Audio_PLL:p1|altpll:altpll_component ; work         ;
 ;    |audio_clock:u4|             ; 17 (17)           ; 14 (14)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |AudioRecorder|audio_clock:u4                           ; work         ;
-;    |audio_converter:u5|         ; 138 (138)         ; 54 (54)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |AudioRecorder|audio_converter:u5                       ; work         ;
+;    |audio_converter:u5|         ; 75 (75)           ; 36 (36)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |AudioRecorder|audio_converter:u5                       ; work         ;
 +---------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------------------------------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -249,6 +256,25 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 
 
 Encoding Type:  One-Hot
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |AudioRecorder|S                                                                                                                                    ;
++-------------------+--------------+-------------------+-----------+--------------+--------------+--------------+-----------------+-------------+-----------+---------+
+; Name              ; S.MIXSAMPLE2 ; S.SUBTRACTSAMPLES ; S.COUNTUP ; S.SAVESAMPLE ; S.MIXSAMPLE1 ; S.ADDSAMPLES ; S.SWITCHADDRESS ; S.GETSAMPLE ; S.MIXINIT ; S.BLANK ;
++-------------------+--------------+-------------------+-----------+--------------+--------------+--------------+-----------------+-------------+-----------+---------+
+; S.BLANK           ; 0            ; 0                 ; 0         ; 0            ; 0            ; 0            ; 0               ; 0           ; 0         ; 0       ;
+; S.MIXINIT         ; 0            ; 0                 ; 0         ; 0            ; 0            ; 0            ; 0               ; 0           ; 1         ; 1       ;
+; S.GETSAMPLE       ; 0            ; 0                 ; 0         ; 0            ; 0            ; 0            ; 0               ; 1           ; 0         ; 1       ;
+; S.SWITCHADDRESS   ; 0            ; 0                 ; 0         ; 0            ; 0            ; 0            ; 1               ; 0           ; 0         ; 1       ;
+; S.ADDSAMPLES      ; 0            ; 0                 ; 0         ; 0            ; 0            ; 1            ; 0               ; 0           ; 0         ; 1       ;
+; S.MIXSAMPLE1      ; 0            ; 0                 ; 0         ; 0            ; 1            ; 0            ; 0               ; 0           ; 0         ; 1       ;
+; S.SAVESAMPLE      ; 0            ; 0                 ; 0         ; 1            ; 0            ; 0            ; 0               ; 0           ; 0         ; 1       ;
+; S.COUNTUP         ; 0            ; 0                 ; 1         ; 0            ; 0            ; 0            ; 0               ; 0           ; 0         ; 1       ;
+; S.SUBTRACTSAMPLES ; 0            ; 1                 ; 0         ; 0            ; 0            ; 0            ; 0               ; 0           ; 0         ; 1       ;
+; S.MIXSAMPLE2      ; 1            ; 0                 ; 0         ; 0            ; 0            ; 0            ; 0               ; 0           ; 0         ; 1       ;
++-------------------+--------------+-------------------+-----------+--------------+--------------+--------------+-----------------+-------------+-----------+---------+
+
+
+Encoding Type:  One-Hot
 +-------------------------------------------------------------------+
 ; State Machine - |AudioRecorder|I2C_AV_Config:u3|mSetup_ST         ;
 +----------------+----------------+----------------+----------------+
@@ -258,32 +284,6 @@ Encoding Type:  One-Hot
 ; mSetup_ST.0001 ; 1              ; 0              ; 1              ;
 ; mSetup_ST.0010 ; 1              ; 1              ; 0              ;
 +----------------+----------------+----------------+----------------+
-
-
-+--------------------------------------------------------------------------------------------------------------+
-; User-Specified and Inferred Latches                                                                          ;
-+-----------------------------------------------------+-------------------------------+------------------------+
-; Latch Name                                          ; Latch Enable Signal           ; Free of Timing Hazards ;
-+-----------------------------------------------------+-------------------------------+------------------------+
-; audio_converter:u5|mem_in[0]                        ; audio_converter:u5|mem_in[0]  ; yes                    ;
-; audio_converter:u5|mem_in[1]                        ; audio_converter:u5|mem_in[1]  ; yes                    ;
-; audio_converter:u5|mem_in[2]                        ; audio_converter:u5|mem_in[2]  ; yes                    ;
-; audio_converter:u5|mem_in[3]                        ; audio_converter:u5|mem_in[3]  ; yes                    ;
-; audio_converter:u5|mem_in[4]                        ; audio_converter:u5|mem_in[4]  ; yes                    ;
-; audio_converter:u5|mem_in[5]                        ; audio_converter:u5|mem_in[5]  ; yes                    ;
-; audio_converter:u5|mem_in[6]                        ; audio_converter:u5|mem_in[6]  ; yes                    ;
-; audio_converter:u5|mem_in[7]                        ; audio_converter:u5|mem_in[7]  ; yes                    ;
-; audio_converter:u5|mem_in[8]                        ; audio_converter:u5|mem_in[8]  ; yes                    ;
-; audio_converter:u5|mem_in[9]                        ; audio_converter:u5|mem_in[9]  ; yes                    ;
-; audio_converter:u5|mem_in[10]                       ; audio_converter:u5|mem_in[10] ; yes                    ;
-; audio_converter:u5|mem_in[11]                       ; audio_converter:u5|mem_in[11] ; yes                    ;
-; audio_converter:u5|mem_in[12]                       ; audio_converter:u5|mem_in[12] ; yes                    ;
-; audio_converter:u5|mem_in[13]                       ; audio_converter:u5|mem_in[13] ; yes                    ;
-; audio_converter:u5|mem_in[14]                       ; audio_converter:u5|mem_in[14] ; yes                    ;
-; audio_converter:u5|mem_in[15]                       ; audio_converter:u5|mem_in[15] ; yes                    ;
-; Number of user-specified and inferred latches = 16  ;                               ;                        ;
-+-----------------------------------------------------+-------------------------------+------------------------+
-Note: All latches listed above may not be present at the end of synthesis due to various synthesis optimizations.
 
 
 +------------------------------------------------------------------------------------------------------------+
@@ -297,10 +297,14 @@ Note: All latches listed above may not be present at the end of synthesis due to
 ; I2C_AV_Config:u3|I2C_Controller:u0|SD[20,21]       ; Merged with I2C_AV_Config:u3|I2C_Controller:u0|SD[18] ;
 ; I2C_AV_Config:u3|mI2C_DATA[18]                     ; Merged with I2C_AV_Config:u3|mI2C_DATA[22]            ;
 ; I2C_AV_Config:u3|I2C_Controller:u0|SD[18]          ; Merged with I2C_AV_Config:u3|I2C_Controller:u0|SD[22] ;
+; S~2                                                ; Lost fanout                                           ;
+; S~3                                                ; Lost fanout                                           ;
+; S~4                                                ; Lost fanout                                           ;
+; S~5                                                ; Lost fanout                                           ;
 ; I2C_AV_Config:u3|mSetup_ST~9                       ; Lost fanout                                           ;
 ; I2C_AV_Config:u3|mSetup_ST~10                      ; Lost fanout                                           ;
 ; audio_clock:u4|BCK_DIV[3]                          ; Stuck at GND due to stuck port data_in                ;
-; Total Number of Removed Registers = 17             ;                                                       ;
+; Total Number of Removed Registers = 21             ;                                                       ;
 +----------------------------------------------------+-------------------------------------------------------+
 
 
@@ -325,12 +329,12 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 194   ;
-; Number of registers using Synchronous Clear  ; 25    ;
-; Number of registers using Synchronous Load   ; 6     ;
-; Number of registers using Asynchronous Clear ; 75    ;
+; Total registers                              ; 257   ;
+; Number of registers using Synchronous Clear  ; 59    ;
+; Number of registers using Synchronous Load   ; 41    ;
+; Number of registers using Asynchronous Clear ; 57    ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 85    ;
+; Number of registers using Clock Enable       ; 136   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -340,13 +344,13 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +--------------------------------------------------+---------+
 ; Inverted Register                                ; Fan out ;
 +--------------------------------------------------+---------+
-; I2C_AV_Config:u3|I2C_Controller:u0|SD_COUNTER[0] ; 17      ;
+; I2C_AV_Config:u3|I2C_Controller:u0|SD_COUNTER[0] ; 18      ;
 ; I2C_AV_Config:u3|I2C_Controller:u0|SD_COUNTER[2] ; 17      ;
 ; I2C_AV_Config:u3|I2C_Controller:u0|SD_COUNTER[3] ; 23      ;
 ; I2C_AV_Config:u3|I2C_Controller:u0|SD_COUNTER[1] ; 17      ;
 ; I2C_AV_Config:u3|I2C_Controller:u0|SD_COUNTER[4] ; 12      ;
 ; I2C_AV_Config:u3|I2C_Controller:u0|SD_COUNTER[5] ; 11      ;
-; I2C_AV_Config:u3|I2C_Controller:u0|SCLK          ; 3       ;
+; I2C_AV_Config:u3|I2C_Controller:u0|SCLK          ; 2       ;
 ; I2C_AV_Config:u3|I2C_Controller:u0|END           ; 5       ;
 ; I2C_AV_Config:u3|I2C_Controller:u0|SDO           ; 4       ;
 ; Total number of inverted registers = 9           ;         ;
@@ -358,8 +362,35 @@ Note: All latches listed above may not be present at the end of synthesis due to
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                      ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------+
-; 3:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |AudioRecorder|I2C_AV_Config:u3|I2C_Controller:u0|SD_COUNTER[1] ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |AudioRecorder|audioL[14]                                       ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |AudioRecorder|audioR[4]                                        ;
+; 6:1                ; 16 bits   ; 64 LEs        ; 48 LEs               ; 16 LEs                 ; Yes        ; |AudioRecorder|sampletemp[1]                                    ;
+; 6:1                ; 18 bits   ; 72 LEs        ; 18 LEs               ; 54 LEs                 ; Yes        ; |AudioRecorder|SEL_Addr2[4]                                     ;
+; 6:1                ; 18 bits   ; 72 LEs        ; 18 LEs               ; 54 LEs                 ; Yes        ; |AudioRecorder|SEL_Addr1[13]                                    ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |AudioRecorder|I2C_AV_Config:u3|I2C_Controller:u0|SD_COUNTER[2] ;
+; 4:1                ; 16 bits   ; 32 LEs        ; 32 LEs               ; 0 LEs                  ; Yes        ; |AudioRecorder|mem_in[2]                                        ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |AudioRecorder|S                                                ;
+; 5:1                ; 18 bits   ; 54 LEs        ; 36 LEs               ; 18 LEs                 ; No         ; |AudioRecorder|SRAM_ADDR                                        ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------+
+
+
++-------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: Top-level Entity: |AudioRecorder ;
++-----------------+-------+-----------------------------------------------------+
+; Parameter Name  ; Value ; Type                                                ;
++-----------------+-------+-----------------------------------------------------+
+; BLANK           ; 0000  ; Unsigned Binary                                     ;
+; MIXINIT         ; 0001  ; Unsigned Binary                                     ;
+; GETSAMPLE       ; 0010  ; Unsigned Binary                                     ;
+; SWITCHADDRESS   ; 0011  ; Unsigned Binary                                     ;
+; ADDSAMPLES      ; 0100  ; Unsigned Binary                                     ;
+; MIXSAMPLE1      ; 0101  ; Unsigned Binary                                     ;
+; SAVESAMPLE      ; 0110  ; Unsigned Binary                                     ;
+; COUNTUP         ; 0111  ; Unsigned Binary                                     ;
+; SUBTRACTSAMPLES ; 1000  ; Unsigned Binary                                     ;
+; MIXSAMPLE2      ; 1001  ; Unsigned Binary                                     ;
++-----------------+-------+-----------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
 +---------------------------------------------------------------------------------------+
@@ -790,6 +821,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------+------------------------------------------+
 
 
++---------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "audio_converter:u5"                                                                                        ;
++--------+--------+----------+----------------------------------------------------------------------------------------------------------+
+; Port   ; Type   ; Severity ; Details                                                                                                  ;
++--------+--------+----------+----------------------------------------------------------------------------------------------------------+
+; mem_in ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed. ;
++--------+--------+----------+----------------------------------------------------------------------------------------------------------+
+
+
 +-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ; Port Connectivity Checks: "I2C_AV_Config:u3|I2C_Controller:u0"                                                                                                                ;
 +------------+--------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
@@ -826,9 +866,9 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Sun Nov 24 15:23:27 2013
+    Info: Processing started: Sat Dec 07 18:24:18 2013
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off AudioRecorder -c AudioRecorder
-Warning (20028): Parallel compilation is not licensed and has been disabled
+Info (11104): Parallel Compilation has detected 8 hyper-threaded processors. However, the extra hyper-threaded processors will not be used by default. Parallel Compilation will use 4 of the 4 physical processors detected instead.
 Info (12021): Found 1 design units, including 1 entities, in source file vga_audio_pll.v
     Info (12023): Found entity 1: VGA_Audio_PLL
 Info (12021): Found 1 design units, including 1 entities, in source file reset_delay.v
@@ -843,13 +883,11 @@ Info (12021): Found 1 design units, including 1 entities, in source file audio_c
     Info (12023): Found entity 1: audio_clock
 Info (12021): Found 1 design units, including 1 entities, in source file audio1.v
     Info (12023): Found entity 1: AudioRecorder
-Warning (10236): Verilog HDL Implicit Net warning at audio_converter.v(41): created implicit net for "SRAM_DQ_N"
-Warning (10236): Verilog HDL Implicit Net warning at audio_converter.v(89): created implicit net for "SRAM_WE"
-Warning (10236): Verilog HDL Implicit Net warning at audio1.v(45): created implicit net for "VGA_CTRL_CLK"
-Warning (10236): Verilog HDL Implicit Net warning at audio1.v(46): created implicit net for "AUD_CTRL_CLK"
-Warning (10236): Verilog HDL Implicit Net warning at audio1.v(47): created implicit net for "VGA_CLK"
+Warning (10236): Verilog HDL Implicit Net warning at audio1.v(50): created implicit net for "VGA_CTRL_CLK"
+Warning (10236): Verilog HDL Implicit Net warning at audio1.v(51): created implicit net for "AUD_CTRL_CLK"
+Warning (10236): Verilog HDL Implicit Net warning at audio1.v(52): created implicit net for "VGA_CLK"
 Info (12127): Elaborating entity "AudioRecorder" for the top level hierarchy
-Warning (10036): Verilog HDL or VHDL warning at audio1.v(33): object "RST" assigned a value but never read
+Warning (10230): Verilog HDL assignment warning at audio1.v(175): truncated value with size 17 to match size of target (16)
 Info (12128): Elaborating entity "Reset_Delay" for hierarchy "Reset_Delay:r0"
 Info (12128): Elaborating entity "VGA_Audio_PLL" for hierarchy "VGA_Audio_PLL:p1"
 Info (12128): Elaborating entity "altpll" for hierarchy "VGA_Audio_PLL:p1|altpll:altpll_component"
@@ -920,86 +958,48 @@ Info (12128): Elaborating entity "I2C_AV_Config" for hierarchy "I2C_AV_Config:u3
 Info (12128): Elaborating entity "I2C_Controller" for hierarchy "I2C_AV_Config:u3|I2C_Controller:u0"
 Info (12128): Elaborating entity "audio_clock" for hierarchy "audio_clock:u4"
 Info (12128): Elaborating entity "audio_converter" for hierarchy "audio_converter:u5"
-Warning (10036): Verilog HDL or VHDL warning at audio_converter.v(41): object "SRAM_DQ_N" assigned a value but never read
-Warning (10036): Verilog HDL or VHDL warning at audio_converter.v(89): object "SRAM_WE" assigned a value but never read
-Warning (10230): Verilog HDL assignment warning at audio_converter.v(41): truncated value with size 16 to match size of target (1)
-Warning (10240): Verilog HDL Always Construct warning at audio_converter.v(75): inferring latch(es) for variable "mem_in", which holds its previous value in one or more paths through the always construct
-Warning (10034): Output port "SRAM_WE_N" at audio_converter.v(16) has no driver
-Info (10041): Inferred latch for "mem_in[0]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[1]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[2]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[3]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[4]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[5]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[6]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[7]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[8]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[9]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[10]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[11]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[12]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[13]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[14]" at audio_converter.v(75)
-Info (10041): Inferred latch for "mem_in[15]" at audio_converter.v(75)
+Warning (10034): Output port "mem_in" at audio_converter.v(14) has no driver
 Info (276014): Found 1 instances of uninferred RAM logic
     Info (276007): RAM logic "I2C_AV_Config:u3|Ram0" is uninferred due to asynchronous read logic
-Warning (12241): 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
+Warning (12241): 2 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Warning (13034): The following nodes have both tri-state and non-tri-state drivers
     Warning (13035): Inserted always-enabled tri-state buffer between "AUD_BCLK" and its non-tri-state driver.
+Warning (13027): Removed fan-outs from the following always-disabled I/O buffers
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[0]" to the node "SRAM_DQ[0]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[1]" to the node "SRAM_DQ[1]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[2]" to the node "SRAM_DQ[2]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[3]" to the node "SRAM_DQ[3]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[4]" to the node "SRAM_DQ[4]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[5]" to the node "SRAM_DQ[5]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[6]" to the node "SRAM_DQ[6]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[7]" to the node "SRAM_DQ[7]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[8]" to the node "SRAM_DQ[8]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[9]" to the node "SRAM_DQ[9]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[10]" to the node "SRAM_DQ[10]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[11]" to the node "SRAM_DQ[11]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[12]" to the node "SRAM_DQ[12]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[13]" to the node "SRAM_DQ[13]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[14]" to the node "SRAM_DQ[14]"
+    Warning (13028): Removed fan-out from the always-disabled I/O buffer "SRAM_DQ[15]" to the node "SRAM_DQ[15]"
 Info (13060): One or more bidirs are fed by always enabled tri-state buffers
     Info (13061): Fan-out of permanently enabled tri-state buffer feeding bidir "AUD_BCLK" is moved to its source
-Warning (13012): Latch audio_converter:u5|mem_in[0] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[1] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[2] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[3] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[4] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[5] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[6] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[7] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[8] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[9] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[10] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[11] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[12] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[13] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[14] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
-Warning (13012): Latch audio_converter:u5|mem_in[15] has unsafe behavior
-    Warning (13013): Ports D and ENA on the latch are fed by the same signal audio_converter:u5|SEL_Cont[3]
 Info (13000): Registers with preset signals will power-up high
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Warning (13009): TRI or OPNDRN buffers permanently enabled
     Warning (13010): Node "AUD_BCLK~synth"
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "TD_RESET" is stuck at VCC
-    Warning (13410): Pin "SRAM_WE_N" is stuck at GND
     Warning (13410): Pin "SRAM_UB_N" is stuck at GND
     Warning (13410): Pin "SRAM_LB_N" is stuck at GND
     Warning (13410): Pin "SRAM_CE_N" is stuck at GND
     Warning (13410): Pin "SRAM_OE_N" is stuck at GND
-Info (17049): 2 registers lost all their fanouts during netlist optimizations.
-Info (144001): Generated suppressed messages file D:/altera/13.0sp1/AudioProject/output_files/AudioRecorder.map.smsg
+Info (17049): 6 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
-Warning (21074): Design contains 20 input pin(s) that do not drive logic
+Warning (21074): Design contains 16 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "KEY[1]"
     Warning (15610): No output dependent on input pin "KEY[2]"
     Warning (15610): No output dependent on input pin "KEY[3]"
-    Warning (15610): No output dependent on input pin "SW[0]"
     Warning (15610): No output dependent on input pin "SW[1]"
     Warning (15610): No output dependent on input pin "SW[2]"
     Warning (15610): No output dependent on input pin "SW[3]"
@@ -1012,26 +1012,17 @@ Warning (21074): Design contains 20 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "SW[10]"
     Warning (15610): No output dependent on input pin "SW[11]"
     Warning (15610): No output dependent on input pin "SW[12]"
-    Warning (15610): No output dependent on input pin "SW[13]"
-    Warning (15610): No output dependent on input pin "SW[14]"
-    Warning (15610): No output dependent on input pin "SW[15]"
     Warning (15610): No output dependent on input pin "SW[16]"
-Info (21057): Implemented 471 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 26 input pins
+Info (21057): Implemented 636 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 25 input pins
     Info (21059): Implemented 29 output pins
     Info (21060): Implemented 18 bidirectional pins
-    Info (21061): Implemented 397 logic cells
+    Info (21061): Implemented 563 logic cells
     Info (21065): Implemented 1 PLLs
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 77 warnings
-    Info: Peak virtual memory: 467 megabytes
-    Info: Processing ended: Sun Nov 24 15:23:30 2013
-    Info: Elapsed time: 00:00:03
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 50 warnings
+    Info: Peak virtual memory: 489 megabytes
+    Info: Processing ended: Sat Dec 07 18:24:22 2013
+    Info: Elapsed time: 00:00:04
     Info: Total CPU time (on all processors): 00:00:03
-
-
-+------------------------------------------+
-; Analysis & Synthesis Suppressed Messages ;
-+------------------------------------------+
-The suppressed messages can be found in D:/altera/13.0sp1/AudioProject/output_files/AudioRecorder.map.smsg.
 
 
