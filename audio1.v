@@ -26,7 +26,8 @@ module AudioRecorder(
   output SRAM_LB_N,
   output SRAM_CE_N,
   output SRAM_OE_N,
-  input rst
+  input rst,
+  output [8:0]LEDG
 );
 
 reg[15:0] mem_in;
@@ -76,12 +77,25 @@ audio_clock u4(
 reg [3:0] S;
 reg [3:0] NS;
 
+reg [17:0] trck1lngth;
+reg [17:0] trck2lngth;
+reg firsttime;
+reg secondtime;
+
+reg [17:0]nextAddress1;
+reg [17:0]nextAddress2;
+
 reg mixcontrol;
 reg writecontrol;
 reg [16:0] sampletemp;
 reg write;
 
-parameter BLANK = 4'd0, 
+reg overwritetrack;
+
+parameter INIT = 4'd10,
+	SETLENGTH1 = 4'd11,
+	SETLENGTH2 = 4'd12,
+	BLANK = 4'd0, 
 	MIXINIT = 4'd1, 
 	GETSAMPLE = 4'd2, 
 	SWITCHADDRESS = 4'd3,
@@ -99,85 +113,108 @@ always @(posedge AUD_DACLRCK)
 begin
 	if(!rst)
 		S<=BLANK;
+	else if(!SW[1])
+		S<=INIT;
 	else
 		S<=NS;
+	
+	if(S==INIT)
+	begin
+		trck1lngth<=18'd0;
+		trck2lngth<=18'd0;
+		firsttime<=1'b1;
+	end
+	if(S==SETLENGTH1)
+	begin
+		if(!KEY[1] && firsttime)
+		begin
+			trck1lngth<=trck1lngth+18'd24000;
+			firsttime<=1'b0;
+		end
+		if(!KEY[0] && firsttime)
+		begin
+			trck1lngth<=trck1lngth-18'd24000;
+			firsttime<=1'b0;
+		end
+		if(KEY[0] && KEY[1])
+			firsttime<=1'b1;
+		secondtime = 1'b0;
+	end
+	if(S==SETLENGTH2)
+	begin
+		if(!KEY[1])
+		begin
+			trck2lngth<=trck2lngth+18'd24000;
+			firsttime<=1'b0;
+		end
+		if(!KEY[0])
+		begin
+			trck2lngth<=trck2lngth-18'd24000;
+			firsttime<=1'b0;
+		end
+		if(KEY[0] && KEY[1])
+			firsttime<=1'b1;
+		if(KEY[2])
+			secondtime = 1'b1;
+		SEL_Addr1<=18'd0;
+		SEL_Addr2<=trck1lngth;
+	end
 	if(S==BLANK)
 	begin
 		write <= SW[17];
+		if(!rst)
+		begin
+			SEL_Addr1 <= 18'd0;
+			SEL_Addr2 <= trck1lngth;
+		end
+		else
+		begin
+			SEL_Addr1 <= nextAddress1;
+			SEL_Addr2 <= nextAddress2;
+		end
+
 		if(!SW[17])
 		begin
 			audioR <= audio_inR;
 			mem_in <= audio_inR;
-			if(!rst)
-			begin
-				SEL_Addr1 <= 18'd0;
-				SEL_Addr2 <= 18'd128000;
-			end
-			else
-			begin
-				if(SEL_Addr1==18'd127999)
-					SEL_Addr1 <= 18'd0;
-				else
-					SEL_Addr1 <= SEL_Addr1 + 18'd1;
-				if(SEL_Addr2==255999)
-					SEL_Addr2 <= 18'd128000;
-				else
-					SEL_Addr2 <= SEL_Addr2 + 18'd1;
-			end
 		end
 		else
-		begin
 			audioR <= SRAM_DQ;
-			if(!rst)
-			begin
-				SEL_Addr1 <= 18'd0;
-				SEL_Addr2 <= 18'd128000;
-			end
-			else
-			begin
-				if(SEL_Addr1==18'd127999)
-					SEL_Addr1 <= 18'd0;
-				else
-					SEL_Addr1 <= SEL_Addr1 + 18'd1;
-				if(SEL_Addr2==255999)
-					SEL_Addr2 <= 18'd128000;
-				else
-					SEL_Addr2 <= SEL_Addr2 + 18'd1;
-			end
-		end
 	end
 	else
 		audioR<=16'd0;
 	if(S== MIXINIT) begin
 			SEL_Addr1 <= 18'd0;
-			SEL_Addr2 <= 18'd128000;
+			SEL_Addr2 <= trck1lngth; //18'd128000;
 			mixcontrol <= 1'b1;
 			write <= 1'b1;
 		end
 	if(S==	GETSAMPLE) begin
-			sampletemp <= SRAM_DQ;
-		end
+		sampletemp <= SRAM_DQ;
+	end
 	if(S==SWITCHADDRESS) mixcontrol <= 1'b0;
 	if(S==ADDSAMPLES) begin
-			sampletemp <= SRAM_DQ + (sampletemp - 17'd32767);
-		end
+		sampletemp <= SRAM_DQ + (sampletemp - 17'd32767);
+	end
 	if(S==SUBTRACTSAMPLES) begin
-			sampletemp <= SRAM_DQ - (17'd32767-sampletemp);
+		sampletemp <= SRAM_DQ - (17'd32767-sampletemp);
 	end
 	if(S==MIXSAMPLE1) begin
 	       sampletemp <= sampletemp - (sampletemp-17'd32767)/17'd2;
 	       write <= 1'b0;
+	       mixcontrol <= overwritetrack;
        	end
 	if(S==MIXSAMPLE2) begin
 		sampletemp <= sampletemp + (17'd32767 - sampletemp)/17'd2;
 		write <= 1'b0;
+		mixcontrol <= overwritetrack;
 	end
 	if(S==SAVESAMPLE) mem_in<=sampletemp;
 	if(S==COUNTUP) begin
-			SEL_Addr1 <= SEL_Addr1 + 18'd1;
-			SEL_Addr2 <= SEL_Addr2 + 18'd1;
-			write<= 1'b1;
-			mixcontrol <= 1'b1;
+		SEL_Addr1<=nextAddress1;
+		SEL_Addr2<=nextAddress2;
+		write<= 1'b1;
+		mixcontrol <= 1'b1;
 		end
 	//endcase
 end
@@ -198,6 +235,26 @@ reg[17:0] SEL_Addr2;
 
 always @(*)
 begin
+	LEDG[8] = (~KEY[3])|(~KEY[2])|(~KEY[1])|(~KEY[0]);
+	if(SEL_Addr1!=trck1lngth)
+		nextAddress1 = SEL_Addr1 + 18'd1;
+	else if(SEL_Addr1 == trck1lngth && SW[12])
+		nextAddress1 = 18'd0;
+	else
+		nextAddress1 = SEL_Addr1;
+
+	if(SEL_Addr2!=trck2lngth + trck1lngth)
+		nextAddress2 <= SEL_Addr2 + 18'd1;
+	else if(SEL_Addr2==trck2lngth + trck1lngth && SW[12])
+		nextAddress2 <= trck1lngth;
+	else
+		nextAddress2 <= SEL_Addr2;
+
+	if(trck1lngth>trck2lngth)
+		overwritetrack = 1'b1;
+	else
+		overwritetrack = 1'b0;
+
 	if(S==BLANK)
 	begin
 	
@@ -218,8 +275,23 @@ begin
 	//	write = writecontrol;
 	end
 	case(S)
+		INIT: NS = SETLENGTH1;
+		SETLENGTH1: begin
+			if(!KEY[2])
+				NS=SETLENGTH2;
+			else
+				NS=SETLENGTH1;
+			
+		end
+		SETLENGTH2: begin
+			if(!KEY[2] && secondtime)
+				NS=BLANK;
+			else
+				NS=SETLENGTH2;
+			
+		end
 		BLANK: begin
-			if(SW[13])
+			if(!KEY[3])
 				NS=MIXINIT;
 			else
 				NS=BLANK;
@@ -248,10 +320,20 @@ begin
 		MIXSAMPLE2: NS = SAVESAMPLE;
 		SAVESAMPLE: NS = COUNTUP;
 		COUNTUP: begin
-			if(SEL_Addr1 == 18'd127998)
-				NS=BLANK;
+			if(trck1lngth>trck2lngth)
+			begin
+				if(nextAddress1 == trck1lngth - 1'b1)
+					NS=BLANK;
+				else
+					NS=GETSAMPLE;
+			end
 			else
-				NS=GETSAMPLE;
+			begin
+				if(nextAddress2 == trck1lngth + trck2lngth - 1'b1)
+					NS=BLANK;
+				else
+					NS=GETSAMPLE;
+			end
 		end
 	endcase
 end
